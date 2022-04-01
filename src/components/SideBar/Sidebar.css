@@ -1,11 +1,12 @@
 
 .sideBarContainer {
-
-    /* flex-grow: .2; */
+    overflow-x: hidden; 
+    overflow-x: hidden; overflow-x: hidden; 
     min-width: 150px;
     background-color: whitesmoke;
     display: flex;
     border-right: grey solid 1px;
+   
 }
 
 h1 {
