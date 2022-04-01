@@ -1,0 +1,11 @@
+.mainContentContainer {
+
+    flex-grow: 1;
+    display: flex;
+    background-color: aquamarine;
+    
+}
+
+h1 {
+    margin: auto;
+}
