@@ -1,16 +1,25 @@
 .container {
-    /* margin: 0 0 0 50%;
-     */
+    
     display: flex;
    
-    background-color: blue;
     width: 100%;
   
-    /* margin-top: 50%; */
-    /* align-items: center; */
+  
 }
 
 .container > form {
     margin: auto;
     justify-content: center;
 }
+
+
+input[type=text] {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+  }

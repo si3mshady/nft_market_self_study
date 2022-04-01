@@ -5,6 +5,12 @@ import NewMarketItem from './components/NewMarketItem/NewMarketItem'
 
 import './App.css';
 
+import {
+  
+  Routes,
+  Route,
+} from "react-router-dom";
+
 function App() {
   return (
     <>
@@ -15,8 +21,13 @@ function App() {
 
     <SideBar />
 
-    {/* <MainContent /> */}
-    <NewMarketItem/>
+    <Routes> 
+      <Route path="/new" element={ <NewMarketItem/>} />          
+      <Route path="/" element={ <MainContent/>} />    
+    </Routes>
+
+  
+   
     
     
     </div>
