@@ -14,6 +14,8 @@ body {
 
 
 .container {
+    overflow-y: hidden;
+    /* position: relative; */
     display: flex;
     min-height: calc(100vh - 100px);
 }

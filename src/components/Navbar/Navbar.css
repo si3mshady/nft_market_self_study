@@ -3,13 +3,18 @@
 
 .navContainer {
     height: 100px;
-    
+    width: 100%;
     display: flex;
     background: whitesmoke;
     align-items: center;
     justify-content: space-between;
     border-bottom:  grey solid 1px;
     font-family: 'Permanent Marker', cursive;
+    position: fixed;
+    z-index: 99;
+    /* flex-flow: row nowrap;
+     */
+
 }
 
 
@@ -34,4 +39,8 @@ a {
  text-shadow: 0px 0px 10px rgba(0,0,0,0.2);
   box-shadow: 0 0 20px;
   cursor: pointer;
+}
+
+a {
+    transform: scale(.5);
 }
