@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rowdies:wght@300&display=swap');
+
+
+.dataCard {
+    display: flex;
+    position: relative;
+  
+   
+    /* flex-direction: colmun; */
+    /* align-items: center; */
+}
+
+
+.dataCard_Container > div >  img {
+    
+    flex-direction: column;
+    margin: 20px;
+    height: 150px;
+    
+}
+
+
+
+.dataCard_Container > button {
+    
+   position: absolute;
+   left: 56px;
+    bottom: -5px;
+
+
+
+    
+;
+    
+}
+
+.dataCard_Container_button {
+  position: absolute;
+}
+
+
+.button_green {
+    /* background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%); */
+    font-family: 'Permanent Marker', cursive;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+
+
+ text-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 20px;
+  }
+
+  button:hover {
+    background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%); 
+    transform: scale(.8);
+    color: orange;
+   
+  }
+
+  img:hover {
+      transform: scale(.9);
+      /* transition-delay: .5s; */
+  }

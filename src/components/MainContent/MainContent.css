@@ -3,7 +3,7 @@
     flex-grow: 1;
     display: flex;
     background-color: aquamarine;
-    
+    flex-wrap: wrap;
 }
 
 h1 {

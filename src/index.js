@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
 
-
+import {ChainProvider} from './context/ChainContext'
 
 ReactDOM.render(
+  <ChainProvider>
   <BrowserRouter>
      <App />
-  </BrowserRouter>,
+  </BrowserRouter>
+  </ChainProvider>
+  ,
   document.getElementById('root')
 );
 

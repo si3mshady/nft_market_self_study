@@ -1,11 +1,16 @@
 import React from 'react'
 import './MainContent.css'
+import DataCard from '../DataCard/DataCard'
+import {ChainContext} from '../../context/ChainContext'
+
+
 
 
 export default function MainContent() {
+    const {starterData} = React.useContext(ChainContext)
     return (
         <main className='mainContentContainer'>
-            <h1>Main Content</h1>
+              {starterData.map(url => (<DataCard key={url}  url={url}/>))}
         </main>
     )
 }
