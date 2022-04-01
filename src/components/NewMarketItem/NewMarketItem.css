@@ -1,0 +1,16 @@
+.container {
+    /* margin: 0 0 0 50%;
+     */
+    display: flex;
+   
+    background-color: blue;
+    width: 100%;
+  
+    /* margin-top: 50%; */
+    /* align-items: center; */
+}
+
+.container > form {
+    margin: auto;
+    justify-content: center;
+}

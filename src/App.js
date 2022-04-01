@@ -1,7 +1,7 @@
 import NavBar from './components/Navbar/Navbar'
 import SideBar from './components/SideBar/Sidebar'
 import MainContent from './components/MainContent/MainContent'
-
+import NewMarketItem from './components/NewMarketItem/NewMarketItem'
 
 import './App.css';
 
@@ -15,7 +15,8 @@ function App() {
 
     <SideBar />
 
-    <MainContent /> 
+    {/* <MainContent /> */}
+    <NewMarketItem/>
     
     
     </div>
