@@ -1,0 +1,7 @@
+Create a nodejs lambda that handles processing the data submitted by the form
+- lambda will make qrc and also send the qrc to ipfs 
+- need axios
+- need to 
+- need to deploy lambda 
+
+deploy along side main ECS deployment of application 

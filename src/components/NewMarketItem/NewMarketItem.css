@@ -8,6 +8,17 @@
   
 }
 
+.container_qrc {
+    
+    display: flex;
+    margin-top: 140px;
+    width: 100%;
+    flex-direction: column;
+  
+  
+}
+
+
 .container > form {
     margin: 100px 300px;
     justify-content: center;
@@ -24,3 +35,22 @@ input[type=text] {
     margin-bottom: 16px; /* Bottom margin */
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
   }
+
+
+
+  .container_qrc > img  {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+  }
+
+  .container_qrc > button {
+      height: 10%;
+      width: 10%;
+      margin: auto;
+     
+    
+  }
+
+  
+  
