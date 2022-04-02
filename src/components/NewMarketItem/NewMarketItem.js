@@ -1,9 +1,14 @@
 
 import React from 'react'
 import './NewMarketItem.css'
-
-
+import JsFileDownloader from 'js-file-downloader';
+// import axios from 'axios'
 export default function NewMarketItem() {
+
+  // React.useEffect(() => {
+  //   console.log('Use effect')
+  //   // handleDownload()
+  //  },[loading])
 
     const [formData, setFormData] = React.useState({
         address: "",
@@ -17,10 +22,26 @@ export default function NewMarketItem() {
 
      const [loading, setLoadingState] = React.useState(false)
 
+
+    const handleDownload = () => {
+      new JsFileDownloader({ 
+        url: uri
+      })
+      .then(function () {
+        console.log('Success')  
+        setLoadingState(!loading)
+        // Called when download ended
+      })
+      .catch(function (error) {
+        // Called when an error occurred
+        console.log(error)
+      });
+    }
       const handleSubmit = (e) => {
         e.preventDefault()
         setLoadingState(!loading)
         stringify_to_base64()
+        // handleDownload()
        
       }
       
@@ -31,27 +52,26 @@ export default function NewMarketItem() {
       
       }
 
-      const encodeURI = () => {
+      const encodeURI = (base64String) => {
 
-        const uri =  `https://api.qrserver.com/v1/create-qr-code/?data=${stringify_to_base64()}`
+        const uri =  `https://api.qrserver.com/v1/create-qr-code/?data=${base64String}`
         
-        // const uri = encodeURI(uri)
         console.log(uri)
         setEncodedUri(uri)
         
       }
 
 
-      const stringify_to_base64  = () => {
+      const stringify_to_base64  = async () => {
         const stringified_json = JSON.stringify(formData)
         const converted_base64 = btoa(stringified_json)
-        console.log(converted_base64)
-        encodeURI()
-        // return converted_base64
+        // console.log(converted_base64)
+        encodeURI(converted_base64)
+        // await handleDownload()
 
       }
 
-   
+     
     return (
 
       <>
@@ -70,14 +90,13 @@ export default function NewMarketItem() {
         (
           <div className='container_qrc'>
             
-          <img src={uri} alt='' title='' />
-          <button onClick={()=> {setLoadingState(!loading)}} className='submitButton' type='submit'> Submit </button> 
+          <img className='qrcCode' src={uri} alt='' title='' />
+          <button onClick={handleDownload} className='submitButton' > Submit </button> 
           </div>
                    
         )
      
-     
-        
+
         
 }
       </>
