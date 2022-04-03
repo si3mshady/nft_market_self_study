@@ -45,7 +45,6 @@ contract MentalHealthMarket is ReentrancyGuard {
             address payable providerWallet;
             string appointmentDate; 
             string appointmentType; 
-            
             address payable patientWallet; 
             uint fee;
             bool scheduled;
@@ -86,7 +85,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             
             payable(address(0)),
             fee,
-            false
+            true
             );
 
             IERC721(nftContract).transferFrom(msg.sender,address(this), nftTokenId);
@@ -120,7 +119,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             payable(owner).transfer(listingPrice);
         }
 
-        function getListedAppointments() public  returns (Appointment[] memory) {
+        function getListedAppointments() public view  returns (Appointment[] memory) {
                  uint currentAppointmentListings =  _appointmentsCreated.current();
                  uint unscheduledAppts = _appointmentsCreated.current() - _appointmentsScheduled.current();
                  uint localIndex = 0;
@@ -131,7 +130,7 @@ contract MentalHealthMarket is ReentrancyGuard {
                      if (idToAppointment[i + 1].patientWallet == address(0)) {
 
                             uint currentApptId = idToAppointment[i + 1].apptId;
-                            Appointment storage currentAppt = idToAppointment[currentApptId];
+                            Appointment storage currentAppt = idToAppointment[i + 1];
                                 appointments[localIndex] = currentAppt;
                                 localIndex +=1;
 

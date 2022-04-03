@@ -23,18 +23,20 @@ describe("MentalHealthMarket", function () {
 
     await eda.createToken('http://www.elliott1.com')
     await eda.createToken('http://www.elliott2.com')
+    await eda.createToken('http://www.elliott3.com')
 
     await mhm.createNewListing(nftAddress, 1, 'Tuesday', 'Screening',auctionPrice, {value: listingPrice})
     await mhm.createNewListing(nftAddress, 2, 'Friday', 'Screening',auctionPrice, {value: listingPrice})
+    await mhm.createNewListing(nftAddress, 3, 'Friday', 'Screening',auctionPrice, {value: listingPrice})
 
     const [_,testAcc1, testAcc2] = await ethers.getSigners()
 
 
-    await mhm.connect(testAcc1).createMarketSale(nftAddress,1 , {value: auctionPrice})
+    await mhm.connect(testAcc2).createMarketSale(nftAddress,1 , {value: auctionPrice})
 
     const appts = await mhm.getListedAppointments()
 
-    console.log('appts',appts)
+    console.log(appts)
 
    
   });
