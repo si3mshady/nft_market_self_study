@@ -53,4 +53,23 @@ input[type=text] {
   }
 
   
-  
+  h1 {
+    font-family: 'Permanent Marker', cursive;
+    margin-top: 40px;
+    text-align: center;
+    color: rgb(45, 45, 177);
+  }
+
+  h2 {
+    font-family: 'Permanent Marker', cursive;
+    margin-bottom: 10px;
+    text-align: center;
+    color: rgb(45, 45, 177);
+  }
+  .submitButton {
+      margin:auto;
+  }
+
+  .qrcCode {
+      border: black solid 8px;
+  }

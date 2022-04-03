@@ -2,13 +2,17 @@
 import React from 'react'
 import './NewMarketItem.css'
 import JsFileDownloader from 'js-file-downloader';
-// import axios from 'axios'
+import { create  } from 'ipfs-http-client'
+
+
+
+
 export default function NewMarketItem() {
 
-  // React.useEffect(() => {
-  //   console.log('Use effect')
-  //   // handleDownload()
-  //  },[loading])
+  const ipfsClient = create('https://ipfs.infura.io:5001/api/v0')
+
+
+  
 
     const [formData, setFormData] = React.useState({
         address: "",
@@ -25,7 +29,8 @@ export default function NewMarketItem() {
 
     const handleDownload = () => {
       new JsFileDownloader({ 
-        url: uri
+        url: uri,
+        filename: `nft-token-${Date.now()}.png`
       })
       .then(function () {
         console.log('Success')  
@@ -37,11 +42,15 @@ export default function NewMarketItem() {
         console.log(error)
       });
     }
+
+
+
+
       const handleSubmit = (e) => {
         e.preventDefault()
         setLoadingState(!loading)
         stringify_to_base64()
-        // handleDownload()
+        
        
       }
       
@@ -64,10 +73,10 @@ export default function NewMarketItem() {
 
       const stringify_to_base64  = async () => {
         const stringified_json = JSON.stringify(formData)
-        const converted_base64 = btoa(stringified_json)
-        // console.log(converted_base64)
+        const converted_base64 = btoa(stringified_json) 
+       
         encodeURI(converted_base64)
-        // await handleDownload()
+      
 
       }
 
@@ -78,7 +87,8 @@ export default function NewMarketItem() {
 
         {!loading ?
          (<form  onSubmit={handleSubmit}>
-            <h1>For Providers: Please create a new appointment token</h1>
+            <h1>For Providers: </h1> 
+            <h2> Please create a new appointment token</h2>
             <input placeholder='Doctor Wallet Address'  name='address' type='text' onChange={handleChange} />
             <input placeholder='Set Appointment Date'  name='date' type='text' onChange={handleChange} />
             <input placeholder='Appointment Type' name='appointmentType' type='text' onChange={handleChange} />
@@ -91,7 +101,7 @@ export default function NewMarketItem() {
           <div className='container_qrc'>
             
           <img className='qrcCode' src={uri} alt='' title='' />
-          <button onClick={handleDownload} className='submitButton' > Submit </button> 
+          <a onClick={handleDownload} className='submitButton' > Submit </a> 
           </div>
                    
         )
