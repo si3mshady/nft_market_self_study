@@ -12,8 +12,8 @@ contract MentalHealthMarket is ReentrancyGuard {
         Counters.Counter public _appointmentsScheduled;
   
         
-        Appointment[] public appointmentList;
-        Appointment[] public nonScheduledAppt;
+        // Appointment[] public appointmentList;
+        // Appointment[] public nonScheduledAppt;
 
         address payable owner; // owner will collect listing fees for appoitnemtns registered 
         uint256 listingPrice = 0.01 ether;
@@ -27,7 +27,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             uint256 nftTokenId,
 
             uint apptId, 
-            address payproviderWallet,
+            address providerWallet,
             string appointmentDate, 
             string appointmentType, 
            
@@ -92,7 +92,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             IERC721(nftContract).transferFrom(msg.sender,address(this), nftTokenId);
             // transfer the ownership of token to marketplace 
             // contract can then transfer to a new buyer once a tx is made
-
+            _appointmentsCreated.increment();
             emit ApptListingCreated(nftContract, nftTokenId, apptId, payable(msg.sender), 
             appointmentDate, appointmentType,  fee, false);
             
@@ -120,7 +120,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             payable(owner).transfer(listingPrice);
         }
 
-        function getListedAppointments() public view returns (Appointment[] memory) {
+        function getListedAppointments() public  returns (Appointment[] memory) {
                  uint currentAppointmentListings =  _appointmentsCreated.current();
                  uint unscheduledAppts = _appointmentsCreated.current() - _appointmentsScheduled.current();
                  uint localIndex = 0;
@@ -130,17 +130,70 @@ contract MentalHealthMarket is ReentrancyGuard {
                  for (uint i = 0; i < currentAppointmentListings; i++) {
                      if (idToAppointment[i + 1].patientWallet == address(0)) {
 
-                                uint currentApptId = idToAppointment[i + 1].apptId;
-                                Appointment storage currentAppt = idToAppointment[currentApptId];
+                            uint currentApptId = idToAppointment[i + 1].apptId;
+                            Appointment storage currentAppt = idToAppointment[currentApptId];
                                 appointments[localIndex] = currentAppt;
                                 localIndex +=1;
 
                      }
 
-                     return appointments
-                     
-                      
+                   
+                       return appointments;
                  }
+               
         }
+
+        function fetchMyScheduledAppointments() public view returns (Appointment[] memory){
+            uint currentAppointmentListings =  _appointmentsCreated.current();
+            uint matches = 0;
+            uint localIndex = 0;
+            for (uint i = 0; i < currentAppointmentListings; i++) {
+                     if (idToAppointment[i + 1].patientWallet == msg.sender) {
+                            matches += 1;
+                     }
+        }
+        Appointment[] memory appointments = new Appointment[](matches);
+
+
+                 for (uint i = 0; i < currentAppointmentListings; i++) {
+                     if (idToAppointment[i + 1].patientWallet == msg.sender) {
+
+                                uint currentApptId = idToAppointment[i + 1].apptId;
+                                Appointment storage currentAppt = idToAppointment[currentApptId];
+                                appointments[localIndex] = currentAppt;
+                                localIndex +=1;
+                     }
+                     return appointments;
+                                           
+                 }
        
+}
+
+
+function fetchProviderListingOfAppointments() public view returns (Appointment[] memory){
+            uint currentAppointmentListings =  _appointmentsCreated.current();
+            uint matches = 0;
+            uint localIndex = 0;
+            for (uint i = 0; i < currentAppointmentListings; i++) {
+                     if (idToAppointment[i + 1].providerWallet == msg.sender) {
+                            matches += 1;
+                     }
+        }
+        Appointment[] memory appointments = new Appointment[](matches);
+
+
+                 for (uint i = 0; i < currentAppointmentListings; i++) {
+                     if (idToAppointment[i + 1].providerWallet == msg.sender) {
+
+                                uint currentApptId = idToAppointment[i + 1].apptId;
+                                Appointment storage currentAppt = idToAppointment[currentApptId];
+                                appointments[localIndex] = currentAppt;
+                                localIndex +=1;
+                     }
+                     return appointments;
+                                           
+                 }
+       
+}
+
 }
