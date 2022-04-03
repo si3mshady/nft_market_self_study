@@ -92,7 +92,7 @@ export default function NewMarketItem() {
             <input placeholder='Doctor Wallet Address'  name='address' type='text' onChange={handleChange} />
             <input placeholder='Set Appointment Date'  name='date' type='text' onChange={handleChange} />
             <input placeholder='Appointment Type' name='appointmentType' type='text' onChange={handleChange} />
-            <input placeholder='Doctor Email' name='email' type='text' onChange={handleChange} />
+           
             <input placeholder='Doctor consultation fee' name='fee' type='text' onChange={handleChange}/>         
             <input type='submit'/>
         </form>): 
