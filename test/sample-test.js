@@ -19,16 +19,17 @@ describe("MentalHealthMarket", function () {
     listingPrice = listingPrice.toString()
 
 
-    const auctionPrice =  ethers.utils.parseUnits('100' ,'ether')
+    const auctionPrice =  ethers.utils.parseUnits('.0001' ,'ether')
 
     await eda.createToken('http://www.elliott1.com')
     await eda.createToken('http://www.elliott2.com')
     await eda.createToken('http://www.elliott2.com')
+    await eda.createToken('http://www.elliott2.com')
    
     await mhm.createNewListing(nftAddress, 1, 16490197, 5,auctionPrice, {value: listingPrice})
-    await mhm.createNewListing(nftAddress, 2, 16490197, 5,auctionPrice, {value: listingPrice})
-    await mhm.createNewListing(nftAddress, 3, 16490197, 5,auctionPrice, {value: listingPrice})
-   
+    await mhm.createNewListing(nftAddress, 2, 888, 5,auctionPrice, {value: listingPrice})
+    await mhm.createNewListing(nftAddress, 3, 6545646, 5,auctionPrice, {value: listingPrice})
+    await mhm.createNewListing(nftAddress, 4, 6545646, 5,auctionPrice, {value: listingPrice})
 
     const [_,testAcc1, testAcc2] = await ethers.getSigners()
     await mhm.connect(testAcc1).createMarketSale(nftAddress,1 , {value: auctionPrice})
@@ -36,16 +37,11 @@ describe("MentalHealthMarket", function () {
 
     let appts = await mhm.getListedAppointments()
 
-    console.log(appts)
-    
-    
-
-    
     
 
     appts = await Promise.all(appts.map(async (i,index) => {
 
-        // let tokenURI = await eda.tokenURI(i.nftTokenId)
+        let tokenURI = await eda.tokenURI(i.nftTokenId)
 
         // console.log(i)
 
@@ -55,7 +51,8 @@ describe("MentalHealthMarket", function () {
           epochTime: i.epochTime.toString(),
           appointmentType: i.appointmentType.toString(),
           fee: i.fee.toString(),
-          nftTokenId: i.nftTokenId.toString()
+          nftTokenId: i.nftTokenId.toString(),
+          tokenURI
           
         }
         return items
