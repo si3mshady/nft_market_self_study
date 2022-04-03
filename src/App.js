@@ -14,7 +14,6 @@ import {
 function App() {
   return (
     <>
-
     
     <NavBar />
     <div className='container'> 
@@ -25,10 +24,6 @@ function App() {
       <Route path="/new" element={ <NewMarketItem/>} />          
       <Route path="/" element={ <MainContent/>} />    
     </Routes>
-
-  
-   
-    
     
     </div>
     </>
