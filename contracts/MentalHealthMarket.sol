@@ -28,8 +28,8 @@ contract MentalHealthMarket is ReentrancyGuard {
 
             uint apptId, 
             address providerWallet,
-            string appointmentDate, 
-            string appointmentType, 
+            uint256 epochTime, 
+            uint256 appointmentType, 
            
             uint fee,
             bool scheduled
@@ -43,8 +43,8 @@ contract MentalHealthMarket is ReentrancyGuard {
             uint256 nftTokenId;
             uint apptId; 
             address payable providerWallet;
-            string appointmentDate; 
-            string appointmentType; 
+            uint256 epochTime; 
+            uint256 appointmentType; 
             address payable patientWallet; 
             uint fee;
             bool scheduled;
@@ -58,10 +58,8 @@ contract MentalHealthMarket is ReentrancyGuard {
         function createNewListing( 
             address nftContract,
             uint256 nftTokenId,
-            // uint apptId,
-            // address providerWallet,
-            string calldata appointmentDate, 
-            string calldata appointmentType, 
+            uint256  epochTime, 
+            uint256  appointmentType, 
            
             // address patientWallet,
             uint fee
@@ -80,7 +78,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             nftTokenId,
             apptId,
             payable(msg.sender),
-            appointmentDate, 
+            epochTime, 
             appointmentType, 
             
             payable(address(0)),
@@ -93,7 +91,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             // contract can then transfer to a new buyer once a tx is made
             _appointmentsCreated.increment();
             emit ApptListingCreated(nftContract, nftTokenId, apptId, payable(msg.sender), 
-            appointmentDate, appointmentType,  fee, false);
+            epochTime, appointmentType,  fee, false);
             
         }
 
