@@ -90,8 +90,8 @@ export default function NewMarketItem() {
             <h1>For Providers: </h1> 
             <h2> Please create a new appointment token</h2>
             <input placeholder='Doctor Wallet Address'  name='address' type='text' onChange={handleChange} />
-            <input placeholder='Set Appointment Date'  name='date' type='text' onChange={handleChange} />
-            <input placeholder='Appointment Type' name='appointmentType' type='text' onChange={handleChange} />
+            <input placeholder='Set Appointment Date (Epoch)'  name='date' type='text' onChange={handleChange} />
+            <input placeholder='Appointment Type (1-5)' name='appointmentType' type='text' onChange={handleChange} />
            
             <input placeholder='Doctor consultation fee' name='fee' type='text' onChange={handleChange}/>         
             <input type='submit'/>
