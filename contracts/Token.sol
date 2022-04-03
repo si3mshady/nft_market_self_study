@@ -19,14 +19,14 @@ contract ElDigitalAsset is ERC721URIStorage {
     event TokenCreated (  address owner, uint tokenId, address marketPlaceAddress );
 
 
-    function createToken(string memory tokenURI) public returns (uint) {
+    function createToken(string memory tokenURI) public  payable returns (uint) {
         _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
+        uint newItemId = _tokenIds.current();
 
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
         setApprovalForAll(contractAddress, true);
-        emit TokenCreated(msg.sender, newItemId,contractAddress);
+       
         return newItemId;
     }
 

@@ -43,8 +43,8 @@ contract MentalHealthMarket is ReentrancyGuard {
             uint256 nftTokenId;
             uint apptId; 
             address payable providerWallet;
-            uint epochTime; 
-            uint appointmentType; 
+            uint256 epochTime; 
+            uint256 appointmentType; 
             address payable patientWallet; 
             uint fee;
             bool scheduled;
@@ -58,8 +58,8 @@ contract MentalHealthMarket is ReentrancyGuard {
         function createNewListing( 
             address nftContract,
             uint256 nftTokenId,
-            uint epochTime, 
-            uint  appointmentType, 
+            uint256 epochTime, 
+            uint256  appointmentType, 
            
             // address patientWallet,
             uint fee
@@ -80,8 +80,7 @@ contract MentalHealthMarket is ReentrancyGuard {
             payable(msg.sender),
             epochTime, 
             appointmentType, 
-            
-            payable(address(0)),
+            payable(address(this)),
             fee,
             true
             );
@@ -125,18 +124,19 @@ contract MentalHealthMarket is ReentrancyGuard {
                  Appointment[] memory appointments = new Appointment[](unscheduledAppts);
 
                  for (uint i = 0; i < currentAppointmentListings; i++) {
-                     if (idToAppointment[i + 1].patientWallet == address(0)) {
+                     if (idToAppointment[i + 1].patientWallet == address(this)) {
 
                             uint currentApptId = idToAppointment[i + 1].apptId;
-                            Appointment storage currentAppt = idToAppointment[i + 1];
+                            Appointment storage currentAppt = idToAppointment[currentApptId];
                                 appointments[localIndex] = currentAppt;
                                 localIndex +=1;
 
                      }
 
                    
-                       return appointments;
+                       
                  }
+                 return appointments;
                
         }
 
@@ -150,7 +150,6 @@ contract MentalHealthMarket is ReentrancyGuard {
                      }
         }
         Appointment[] memory appointments = new Appointment[](matches);
-
 
                  for (uint i = 0; i < currentAppointmentListings; i++) {
                      if (idToAppointment[i + 1].patientWallet == msg.sender) {

@@ -23,40 +23,48 @@ describe("MentalHealthMarket", function () {
 
     await eda.createToken('http://www.elliott1.com')
     await eda.createToken('http://www.elliott2.com')
-    await eda.createToken('http://www.elliott3.com')
-
+    await eda.createToken('http://www.elliott2.com')
+   
     await mhm.createNewListing(nftAddress, 1, 16490197, 5,auctionPrice, {value: listingPrice})
-    await mhm.createNewListing(nftAddress, 2, 16490197, 1,auctionPrice, {value: listingPrice})
-    // await mhm.createNewListing(nftAddress, 3, 'Friday', 'Screening',auctionPrice, {value: listingPrice})
+    await mhm.createNewListing(nftAddress, 2, 16490197, 5,auctionPrice, {value: listingPrice})
+    await mhm.createNewListing(nftAddress, 3, 16490197, 5,auctionPrice, {value: listingPrice})
+   
 
     const [_,testAcc1, testAcc2] = await ethers.getSigners()
     await mhm.connect(testAcc1).createMarketSale(nftAddress,1 , {value: auctionPrice})
+    
 
     let appts = await mhm.getListedAppointments()
 
+    console.log(appts)
     
     
 
-    appts = await Promise.all(appts.map(async i => {
+    
+    
+
+    appts = await Promise.all(appts.map(async (i,index) => {
 
         // let tokenURI = await eda.tokenURI(i.nftTokenId)
+
+        // console.log(i)
 
         let items = {
 
           apptId: i.apptId.toString(),
-          epochTime: i.epochTime,
-          appointmentType: i.appointmentType,
+          epochTime: i.epochTime.toString(),
+          appointmentType: i.appointmentType.toString(),
           fee: i.fee.toString(),
           nftTokenId: i.nftTokenId.toString()
           
         }
-
         return items
-    })
-   
-    )
+        
+    }
+        
+    ))
     
-
-    console.log(appts)
+console.log(appts)
+   
   });
 });
