@@ -49,7 +49,7 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
 
 
             const loadNfts = async () => {
-                const provider = new ethers.providers.JsonRpcProvider()
+                const provider = new ethers.providers.Web3Provider(window.ethereum)
                 const tokenContract = new ethers.Contract(nftTokenSmartContractAddress, ApptToken.abi, provider)
                 const marketContract = new ethers.Contract(nftMarketSmartContractAddress, HealthMarket.abi, provider)
                 const results = await marketContract.getListedAppointments()

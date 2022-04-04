@@ -21,10 +21,10 @@ describe("MentalHealthMarket", function () {
 
     const auctionPrice =  ethers.utils.parseUnits('.0001' ,'ether')
 
-    await eda.createToken('http://www.elliott1.com')
-    await eda.createToken('http://www.elliott2.com')
-    await eda.createToken('http://www.elliott2.com')
-    await eda.createToken('http://www.elliott2.com')
+    await eda.createToken('https://ipfs.infura.io/ipfs/QmaSKc7s2dDYg1Pc3EfQ3L8NK4NM1yuTdKxhbqFUqpij1T')
+    await eda.createToken('https://ipfs.infura.io/ipfs/QmaSKc7s2dDYg1Pc3EfQ3L8NK4NM1yuTdKxhbqFUqpij1T')
+    await eda.createToken('https://ipfs.infura.io/ipfs/QmaSKc7s2dDYg1Pc3EfQ3L8NK4NM1yuTdKxhbqFUqpij1T')
+    await eda.createToken('https://ipfs.infura.io/ipfs/QmaSKc7s2dDYg1Pc3EfQ3L8NK4NM1yuTdKxhbqFUqpij1T')
    
     await mhm.createNewListing(nftAddress, 1, 16490197, 5,auctionPrice, {value: listingPrice})
     await mhm.createNewListing(nftAddress, 2, 888, 5,auctionPrice, {value: listingPrice})
@@ -33,7 +33,7 @@ describe("MentalHealthMarket", function () {
 
     const [_,testAcc1, testAcc2] = await ethers.getSigners()
 
-    
+
     await mhm.connect(testAcc1).createMarketSale(nftAddress,1 , {value: auctionPrice})
     
 

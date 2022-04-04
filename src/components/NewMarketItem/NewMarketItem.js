@@ -51,10 +51,10 @@ export default function NewMarketItem() {
       // const c = await web3modal.connect()
       if (!window.ethereum) {
         alert('Please install metamask')
-      }
+      } 
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner()
+      const signer = await provider.getSigner()
 
       var contract = new ethers.Contract(nftTokenSmartContractAddress,ApptToken.abi,signer)
       const transaction  = await contract.createToken(url)
@@ -127,6 +127,8 @@ export default function NewMarketItem() {
 
         const added = await client.add(data)
         const uri = `https://ipfs.infura.io/ipfs/${added.path}`
+
+        console.log(uri)
         createSale(uri)
 
       } catch(e) {
@@ -195,7 +197,7 @@ export default function NewMarketItem() {
           <img className='qrcCode' src={uri} alt='' title='' />
           <a onClick={handleDownload} className='submitButton' > Download  </a> 
           <input type='file' className='submitButton' onClick={getFile} />
-          <a  onClick={createItem} className='submitButton'>Create Market Item</a>
+          <a  onClick={() => createItem()} className='submitButton'>Create Market Item</a>
           
           </div>
                    
