@@ -2,6 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("MentalHealthMarket", function () {
+  
   it("Generate Medical Appointments using QRC codes ", async function () {
     const MentalHealthMarket = await ethers.getContractFactory("MentalHealthMarket");
     const mhm = await MentalHealthMarket.deploy();
@@ -37,7 +38,7 @@ describe("MentalHealthMarket", function () {
     await mhm.connect(testAcc1).createMarketSale(nftAddress,1 , {value: auctionPrice})
     
 
-    let appts = await mhm.getListedAppointments()
+    let appts = await mhm.getAllAppts()
 
     
 

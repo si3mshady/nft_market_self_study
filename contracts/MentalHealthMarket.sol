@@ -138,6 +138,31 @@ contract MentalHealthMarket is ReentrancyGuard {
                
         }
 
+
+        function getAllAppts() public view  returns (Appointment[] memory) {
+                 uint currentAppointmentListings =  _appointmentsCreated.current();
+                
+                 uint localIndex = 0;
+
+                 Appointment[] memory appointments = new Appointment[](currentAppointmentListings);
+
+                 for (uint i = 0; i < currentAppointmentListings; i++) {
+                     if (true) {
+
+                            uint currentApptId = idToAppointment[i + 1].apptId;
+                            Appointment storage currentAppt = idToAppointment[currentApptId];
+                                appointments[localIndex] = currentAppt;
+                                localIndex +=1;
+
+                     }
+
+                   
+                       
+                 }
+                 return appointments;
+               
+        }
+
         function fetchMyScheduledAppointments() public view returns (Appointment[] memory){
             uint currentAppointmentListings =  _appointmentsCreated.current();
             uint matches = 0;

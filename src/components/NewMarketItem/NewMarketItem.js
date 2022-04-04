@@ -9,6 +9,9 @@ import Web3modal from 'web3modal'
 import { ethers } from "ethers";
 import HealthMarket from '../../artifacts/contracts/MentalHealthMarket.sol/MentalHealthMarket.json'
 import ApptToken from '../../artifacts/contracts/Token.sol/ElDigitalAsset.json'
+import {ChainContext} from '../../context/ChainContext'
+
+
 
 import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../../utility/config'
 
@@ -24,18 +27,23 @@ const client = ipfsClient(IPFS_BASE_URL)
 
 export default function NewMarketItem() {
 
+  const {loadNfts} = React.useContext(ChainContext)
+
 
   const navigate = useNavigate()
 
+
   const  getFile = async (e) => {
 
-    const file = e.target.files[0]
+    const file = await e.target.files[0]
     try {
           const added = await client.add(file, {
               progress: (prog) => {console.log(`Received - ${prog}`)}
           })
 
           const uri = `https://ipfs.infura.io/ipfs/${added.path}`
+
+          console.log(uri)
 
           setNftURI(uri)
     
@@ -57,23 +65,34 @@ export default function NewMarketItem() {
       const signer = await provider.getSigner()
 
       var contract = new ethers.Contract(nftTokenSmartContractAddress,ApptToken.abi,signer)
-      const transaction  = await contract.createToken(url)
+
+      let transaction  = await contract.createToken(url)
+      
       const tx = await transaction.wait()
-      console.log(tx)
+      console.log('This is the tx data',tx)
       const event = tx.events[0]
       const value = tx.events[2]
-      let tokenId = value.toNumber()
 
-      const price = ethers.utils.parseUnits(formData.fee, 'ether')
+      console.log('value',value)
+      // let tokenId = value.toNumber()
+
+
+      const price = ethers.utils.parseUnits('.021', 'ether')
+
 
       var contract = new ethers.Contract(nftMarketSmartContractAddress,HealthMarket.abi,signer) 
       let listingPrice = await contract.getListingPrice()
       listingPrice = listingPrice.toString()
-      transaction = await contract.createMarketItem(nftMarketSmartContractAddress, tokenId, 
+
+
+      transaction = await contract.createNewListing(nftTokenSmartContractAddress, 1, 
         formData.date, formData.appointmentType, price, 
           {value: listingPrice})
+
+
       await transaction.wait()
-      navigate.push('/')
+
+      await loadNfts() 
 
     }
 
@@ -119,7 +138,7 @@ export default function NewMarketItem() {
       });
     }
 
-    const createItem =  async () => {
+    const createItem =  async (uri) => {
       const data = JSON.stringify({
         nftUri:nftURI } )
 
@@ -197,7 +216,7 @@ export default function NewMarketItem() {
           <img className='qrcCode' src={uri} alt='' title='' />
           <a onClick={handleDownload} className='submitButton' > Download  </a> 
           <input type='file' className='submitButton' onClick={getFile} />
-          <a  onClick={() => createItem()} className='submitButton'>Create Market Item</a>
+          <a  onClick={createItem} className='submitButton'>Create Market Item</a>
           
           </div>
                    

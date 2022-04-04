@@ -62,7 +62,7 @@ export default function CreateComponent() {
         let contract = new ethers.Contract(nftMarketSmartContractAddress,HealthMarket.abi,signer) 
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
-        transaction = await contract.createMarketItem(nftMarketSmartContractAddress, tokenId, 888888, 3, price, 
+        transaction = await contract.createMarketItem(nftMarketSmartContractAddress, 1, 888888, 3, listingPrice, 
             {value: listingPrice})
         await transaction.wait()
         useHistory.push('/')        

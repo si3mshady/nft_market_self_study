@@ -49,12 +49,23 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
 
 
             const loadNfts = async () => {
+                console.log('Loading Nfts....')
+
+                const accounts = await window.ethereum.request({method: 'eth_accounts'});
+
+
                 const provider = new ethers.providers.Web3Provider(window.ethereum)
+                // https://rpc-mumbai.matic.today"
+                // const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
+
+
                 const tokenContract = new ethers.Contract(nftTokenSmartContractAddress, ApptToken.abi, provider)
                 const marketContract = new ethers.Contract(nftMarketSmartContractAddress, HealthMarket.abi, provider)
-                const results = await marketContract.getListedAppointments()
-            
-                let appts = await Promise.all(results.map(async (i,index) => {
+                const results = await marketContract.getAllAppts()
+
+                console.log(results)
+                
+                try { let appts = await Promise.all(results.map(async (i,index) => {
             
                     let tokenURI = await tokenContract.tokenURI(i.nftTokenId)
                     const metadata = await axios.get(tokenURI)
@@ -68,9 +79,7 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
                       epochTime: i.epochTime.toString(),
                       appointmentType: i.appointmentType.toString(),
                       fee: fee,
-                      image: metadata.data.image, 
-                      name: metadata.data.name,
-                      description: metadata.data.description,
+                    
                       nftTokenId: i.nftTokenId.toString(),
                       tokenURI
                       
@@ -82,7 +91,11 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
                 ))
             
                 setTokens(appts)
-                setLoadingState(!loadingState)
+                setLoadingState(!loadingState)}  catch(e) {
+
+                    console.log(e)
+                }
+               
             
             }
 
@@ -92,8 +105,8 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
         const [starterData, setData] = useState([])
     
         useEffect(() => {
-            setData(data)
-            // loadNfts()
+            // setData(data)
+            loadNfts()
            
     
         },[])
