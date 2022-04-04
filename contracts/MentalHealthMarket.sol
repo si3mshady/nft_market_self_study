@@ -60,8 +60,6 @@ contract MentalHealthMarket is ReentrancyGuard {
             uint256 nftTokenId,
             uint256 epochTime, 
             uint256  appointmentType, 
-           
-            // address patientWallet,
             uint fee
 
         ) 

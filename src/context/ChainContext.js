@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react'
 import axios from 'axios'
 import { ethers } from "ethers";
 
-import web3modal from 'web3modal'
+import Web3modal from 'web3modal'
 import HealthMarket from '../artifacts/contracts/MentalHealthMarket.sol/MentalHealthMarket.json'
 import ApptToken from '../artifacts/contracts/Token.sol/ElDigitalAsset.json'
 
@@ -13,9 +13,41 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
  export const ChainContext = React.createContext();
 
 
- 
-
         export const ChainProvider = ({children}) => { 
+
+            const buyNft = async (token) => {
+
+                const web3modal = new Web3modal()
+                const connection = await web3modal.connect()
+                const provider =  await new ethers.providers.Web3Provider(connection)
+                const signer = provider.getSigner()
+                const marketContract = new ethers.Contract(nftMarketSmartContractAddress, HealthMarket.abi, signer)
+                const fee = ethers.utils.parseUnits(tokens.price.toString(), 'ether')
+                const tx = await HealthMarket.createMarketSale(token, ApptToken, {value: fee}) 
+                await tx.wait()
+                loadNfts() 
+                return (
+
+                    <div className='main_container' style={{display: 'flex'}}>
+
+                                <div className='main_container level1'  style={{display: 'flex'}}>
+
+
+                                            <div className='main_container level2'>
+
+                                                    {data.map((nft, i) => {
+                                                        console.log(nft)
+                                                    }) }
+
+                                            </div>                                                        
+                                </div>
+
+                    </div>
+                )
+            }
+
+
+
             const loadNfts = async () => {
                 const provider = new ethers.providers.JsonRpcProvider()
                 const tokenContract = new ethers.Contract(nftTokenSmartContractAddress, ApptToken.abi, provider)
@@ -60,8 +92,8 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
         const [starterData, setData] = useState([])
     
         useEffect(() => {
-            // setData(data)
-            loadNfts()
+            setData(data)
+            // loadNfts()
            
     
         },[])
@@ -69,7 +101,7 @@ import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../ut
     
         return (
             <ChainContext.Provider value={{starterData, tokens, setTokens, 
-            loadingState, setLoadingState, loadNfts}}>
+            loadingState, setLoadingState, loadNfts,buyNft}}>
                 {children}
             </ChainContext.Provider>
         )

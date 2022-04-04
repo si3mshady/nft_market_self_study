@@ -1,6 +1,10 @@
 import React from 'react'
 import './DataCard.css'
+
+import {ChainContext} from '../../context/ChainContext'
+
 export default function Datacard({url}) {
+    const {starterData, loadingState, setLoadingState,buyNft, tokens} = React.useContext(ChainContext)
     return (
         <div className='dataCard'>
 
@@ -10,7 +14,7 @@ export default function Datacard({url}) {
                         <img src={url} />
                         
                         </div>
-                        <button className='button_green'>Add Appt</button>
+                        <button  onClick={buyNft} className='button_green'>Add Appt</button>
 
             </div>
 

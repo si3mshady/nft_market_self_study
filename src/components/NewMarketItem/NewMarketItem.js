@@ -2,39 +2,115 @@
 import React from 'react'
 import './NewMarketItem.css'
 import JsFileDownloader from 'js-file-downloader';
-import { create  } from 'ipfs-http-client'
 
 
+import{ create as ipfsClient } from 'ipfs-http-client'
+import Web3modal from 'web3modal'
+import { ethers } from "ethers";
+import HealthMarket from '../../artifacts/contracts/MentalHealthMarket.sol/MentalHealthMarket.json'
+import ApptToken from '../../artifacts/contracts/Token.sol/ElDigitalAsset.json'
+
+import {nftTokenSmartContractAddress,nftMarketSmartContractAddress } from '../../utility/config'
+
+import { useNavigate } from "react-router-dom";
+
+
+
+const IPFS_BASE_URL = 'https://ipfs.infura.io:5001/api/v0'
+
+
+const client = ipfsClient(IPFS_BASE_URL)
 
 
 export default function NewMarketItem() {
 
-  const ipfsClient = create('https://ipfs.infura.io:5001/api/v0')
 
+  const navigate = useNavigate()
+
+  const  getFile = async (e) => {
+
+    const file = e.target.files[0]
+    try {
+          const added = await client.add(file, {
+              progress: (prog) => {console.log(`Received - ${prog}`)}
+          })
+
+          const uri = `https://ipfs.infura.io/ipfs/${added.path}`
+
+          setNftURI(uri)
+    
+
+    } 
+    catch(e) { console.log(e) }
+    }
+
+
+
+    const createSale = async (url) => {
+      // const web3modal = new Web3modal()
+      // const c = await web3modal.connect()
+      if (!window.ethereum) {
+        alert('Please install metamask')
+      }
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner()
+
+      var contract = new ethers.Contract(nftTokenSmartContractAddress,ApptToken.abi,signer)
+      const transaction  = await contract.createToken(url)
+      const tx = await transaction.wait()
+      console.log(tx)
+      const event = tx.events[0]
+      const value = tx.events[2]
+      let tokenId = value.toNumber()
+
+      const price = ethers.utils.parseUnits(formData.fee, 'ether')
+
+      var contract = new ethers.Contract(nftMarketSmartContractAddress,HealthMarket.abi,signer) 
+      let listingPrice = await contract.getListingPrice()
+      listingPrice = listingPrice.toString()
+      transaction = await contract.createMarketItem(nftMarketSmartContractAddress, tokenId, 
+        formData.date, formData.appointmentType, price, 
+          {value: listingPrice})
+      await transaction.wait()
+      navigate.push('/')
+
+    }
+
+
+
+  const [nftURI, setNftURI] = React.useState()
+
+ 
 
   
 
     const [formData, setFormData] = React.useState({
         address: "",
         date: "",
-        email: "",
-        fee: "",
-        appointmentType: ""
+        appointmentType: "",
+        fee: ""
+       
       })
 
     const [uri, setEncodedUri] = React.useState('')
 
      const [loading, setLoadingState] = React.useState(false)
 
+     const [download, setReadyToDownload] = React.useState(false)
 
-    const handleDownload = () => {
+
+    const handleDownload = (e) => {
       new JsFileDownloader({ 
         url: uri,
         filename: `nft-token-${Date.now()}.png`
       })
       .then(function () {
         console.log('Success')  
-        setLoadingState(!loading)
+        
+        setReadyToDownload(!download)
+
+        // setLoadingState(!loading)
         // Called when download ended
       })
       .catch(function (error) {
@@ -43,7 +119,23 @@ export default function NewMarketItem() {
       });
     }
 
+    const createItem =  async () => {
+      const data = JSON.stringify({
+        nftUri:nftURI } )
 
+      try {
+
+        const added = await client.add(data)
+        const uri = `https://ipfs.infura.io/ipfs/${added.path}`
+        createSale(uri)
+
+      } catch(e) {
+
+        console.log(e)
+
+
+      }
+    }
 
 
       const handleSubmit = (e) => {
@@ -101,7 +193,10 @@ export default function NewMarketItem() {
           <div className='container_qrc'>
             
           <img className='qrcCode' src={uri} alt='' title='' />
-          <a onClick={handleDownload} className='submitButton' > Submit </a> 
+          <a onClick={handleDownload} className='submitButton' > Download  </a> 
+          <input type='file' className='submitButton' onClick={getFile} />
+          <a  onClick={createItem} className='submitButton'>Create Market Item</a>
+          
           </div>
                    
         )

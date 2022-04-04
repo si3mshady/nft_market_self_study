@@ -4,18 +4,13 @@ import DataCard from '../DataCard/DataCard'
 import {ChainContext} from '../../context/ChainContext'
 
 
-
-
 export default function MainContent() {
-    const {starterData, loadingState, setLoadingState, tokens,} = React.useContext(ChainContext)
+    const {starterData, loadingState, setLoadingState, tokens} = React.useContext(ChainContext)
     return (
 
         <>
-
-           
         
-        
-        { !tokens.length ? 
+        { tokens.length == 0 ? 
         (<main className='mainContentContainer'>
          <h1>No Appointment Tokens</h1>
         </main>): (
@@ -25,7 +20,7 @@ export default function MainContent() {
               {starterData.map(url => (<DataCard key={url}  url={url}/>))}
         </main>)
 
-    }
+        }
         </>
     )
 }

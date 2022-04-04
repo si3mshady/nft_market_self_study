@@ -26,7 +26,7 @@ contract ElDigitalAsset is ERC721URIStorage {
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
         setApprovalForAll(contractAddress, true);
-       
+        
         return newItemId;
     }
 
